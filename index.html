@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mybatisplus 分页返回的list是可变的吗 - Bing 搜索</title>
+    <title>Google & GitHub 查看器</title>
     <style>
         * {
             margin: 0;
@@ -12,428 +12,181 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #fff;
-            color: #202020;
-            line-height: 1.5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f5f5f5;
         }
 
+        /* 顶部按钮区域 */
         .header {
             display: flex;
-            align-items: center;
-            padding: 20px 30px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #202020;
-            margin-right: 20px;
-        }
-
-        .logo span {
-            color: #0066cc;
-        }
-
-        .search-container {
-            flex: 1;
-            max-width: 700px;
-            position: relative;
-        }
-
-        .search-box {
-            display: flex;
-            width: 100%;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 12px 16px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 25px 0 0 25px;
-            outline: none;
-        }
-
-        .search-input:focus {
-            border-color: #0066cc;
-            box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
-        }
-
-        .search-btn {
-            padding: 12px 20px;
-            background-color: #0066cc;
-            color: white;
-            border: none;
-            border-radius: 0 25px 25px 0;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .search-btn:hover {
-            background-color: #0055aa;
-        }
-
-        .nav {
-            display: flex;
-            gap: 20px;
-            padding: 15px 30px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .nav-item {
-            color: #666;
-            text-decoration: none;
-            font-size: 14px;
-            padding-bottom: 10px;
-        }
-
-        .nav-item.active {
-            color: #0066cc;
-            border-bottom: 3px solid #0066cc;
-        }
-
-        .nav-item:hover {
-            color: #0066cc;
-        }
-
-        .main-content {
-            display: flex;
-            padding: 20px 30px;
-            max-width: 1200px;
-        }
-
-        .results-section {
-            flex: 1;
-            max-width: 700px;
-        }
-
-        .result-count {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .result-item {
-            margin-bottom: 30px;
-        }
-
-        .result-url {
-            color: #0066cc;
-            font-size: 14px;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .result-url:hover {
-            text-decoration: underline;
-        }
-
-        .result-title {
-            color: #1a0dab;
-            font-size: 20px;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .result-title:hover {
-            text-decoration: underline;
-        }
-
-        .result-snippet {
-            color: #4d4d4d;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .result-snippet b {
-            font-weight: bold;
-        }
-
-        .pagination {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 40px;
-            padding-bottom: 30px;
-        }
-
-        .page-btn {
-            padding: 8px 14px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            color: #0066cc;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .page-btn:hover {
-            background-color: #f0f0f0;
-        }
-
-        .page-btn.active {
-            background-color: #0066cc;
-            color: white;
-            border-color: #0066cc;
-        }
-
-        .page-next {
-            margin-left: 10px;
-        }
-
-        .sidebar {
-            width: 300px;
-            margin-left: 40px;
-            padding-left: 20px;
-            border-left: 1px solid #e0e0e0;
-        }
-
-        .related-searches {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .related-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .related-list {
-            list-style: none;
-        }
-
-        .related-list li {
-            margin-bottom: 10px;
-        }
-
-        .related-list a {
-            color: #0066cc;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .related-list a:hover {
-            text-decoration: underline;
-        }
-
-        .footer {
-            background-color: #f2f2f2;
-            padding: 20px 30px;
-            margin-top: 40px;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 20px;
             justify-content: center;
-            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
         }
 
-        .footer-links a {
-            color: #666;
+        .nav-btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             text-decoration: none;
-            font-size: 14px;
+            display: inline-block;
         }
 
-        .footer-links a:hover {
-            text-decoration: underline;
+        .btn-google {
+            background-color: #4285f4;
+            color: white;
         }
 
-        .copyright {
+        .btn-google:hover {
+            background-color: #3367d6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+        }
+
+        .btn-github {
+            background-color: #333;
+            color: white;
+        }
+
+        .btn-github:hover {
+            background-color: #24292e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(51, 51, 51, 0.3);
+        }
+
+        /* iframe 容器 */
+        .iframe-container {
+            flex: 1;
+            position: relative;
+            background-color: #fff;
+            margin: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #contentFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* 初始提示 */
+        .placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
             color: #666;
-            font-size: 12px;
-            margin-top: 15px;
+            pointer-events: none;
+        }
+
+        .placeholder h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .placeholder p {
+            font-size: 16px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* 响应式 */
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-btn {
+                width: 80%;
+                text-align: center;
+            }
+            
+            .iframe-container {
+                margin: 10px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 顶部导航按钮 -->
     <div class="header">
-        <div class="logo"><span>Bing</span></div>
-        <div class="search-container">
-            <div class="search-box">
-                <input type="text" class="search-input" value="mybatisplus 分页返回的list是可变的吗" id="searchInput">
-                <button class="search-btn" onclick="performSearch()">搜索</button>
-            </div>
-        </div>
+        <button class="nav-btn btn-google" onclick="loadPage('https://www.google.com')">Google</button>
+        <button class="nav-btn btn-github" onclick="loadPage('https://github.com')">GitHub</button>
+        <input type="text" id="urlInput" placeholder="输入自定义 URL (例如: https://example.com)" 
+               style="padding: 12px; font-size: 16px; border: 1px solid #ddd; border-radius: 4px; width: 300px;"
+               onblur="handleUrlInput()" onkeypress="handleKeyPress(event)">
     </div>
 
-    <div class="nav">
-        <a href="#" class="nav-item active">全部</a>
-        <a href="#" class="nav-item">图片</a>
-        <a href="#" class="nav-item">视频</a>
-        <a href="#" class="nav-item">新闻</a>
-        <a href="#" class="nav-item">地图</a>
-        <a href="#" class="nav-item">更多</a>
-    </div>
-
-    <div class="main-content">
-        <div class="results-section">
-            <p class="result-count">约 12,500 条结果 (0.45 秒)</p>
-
-            <div class="result-item">
-                <a href="#" class="result-url">https://blog.csdn.net/xxx/article/mybatisplus-page</a>
-                <a href="#" class="result-title">MyBatis-Plus 分页查询返回的 List 是否可变？深度解析</a>
-                <p class="result-snippet"><b>MyBatis-Plus</b> 进行<b>分页</b>查询时，<b>返回的 List</b> 通常是 ArrayList 实现，<b>是可变的</b>。但需要注意在某些特殊配置下可能会返回不可变集合...</p>
-            </div>
-
-            <div class="result-item">
-                <a href="#" class="result-url">https://www.cnblogs.com/java-guide/p/mybatis-plus-pagination.html</a>
-                <a href="#" class="result-title">详解 MyBatis-Plus Page 对象中的 getRecords() 返回值特性</a>
-                <p class="result-snippet">在使用 <b>MyBatis-Plus</b> 的 <b>分页</b>功能时，Page 对象的 getRecords() 方法<b>返回的 List</b> 默认可变。本文通过源码分析和实际案例说明如何安全操作...</p>
-            </div>
-
-            <div class="result-item">
-                <a href="#" class="result-url">https://stackoverflow.com/questions/mybatis-plus-mutable-list</a>
-                <a href="#" class="result-title">Is the list returned by MyBatis-Plus pagination mutable? - Stack Overflow</a>
-                <p class="result-snippet">Question: When using <b>MyBatis-Plus</b> for <b>pagination</b>, can I modify the <b>returned List</b>? Answer: Yes, by default it returns a mutable ArrayList, but you should be careful...</p>
-            </div>
-
-            <div class="result-item">
-                <a href="#" class="result-url">https://mybatis.plus/guide/page.html</a>
-                <a href="#" class="result-title">分页插件 | MyBatis-Plus 官方文档</a>
-                <p class="result-snippet">官方文档介绍：<b>分页</b>查询使用 Page 对象封装结果，其中 records 字段存储查询结果<b>List</b>。默认情况下该<b>List</b>为可变集合，支持添加、删除等操作...</p>
-            </div>
-
-            <div class="result-item">
-                <a href="#" class="result-url">https://juejin.cn/post/mybatis-plus-collection-analysis</a>
-                <a href="#" class="result-title">MyBatis-Plus 分页返回集合类型分析与最佳实践 - 掘金</a>
-                <p class="result-snippet">深入分析 <b>MyBatis-Plus</b> <b>分页返回的 List</b> 底层实现，探讨在不同场景下是否需要转换为不可变集合，以及如何处理并发修改异常...</p>
-            </div>
-
-            <div class="result-item">
-                <a href="#" class="result-url">https://github.com/baomidou/mybatis-plus/issues/1234</a>
-                <a href="#" class="result-title">Issue: Pagination result list mutability discussion · Issue #1234</a>
-                <p class="result-snippet">社区讨论关于 <b>分页</b>结果集的可变性问题。开发者确认默认实现使用 ArrayList，因此<b>是可变的</b>。建议业务层根据需要进行防御性拷贝...</p>
-            </div>
-
-            <div class="result-item">
-                <a href="#" class="result-url">https://www.zhihu.com/question/mybatis-plus-list-modify</a>
-                <a href="#" class="result-title">MyBatis-Plus 分页查出来的数据可以直接修改吗？ - 知乎</a>
-                <p class="result-snippet">回答：<b>返回的 List</b>本身支持修改操作，但要注意这不会影响数据库中的数据。如果需要持久化修改，需要调用对应的 update 方法...</p>
-            </div>
-
-            <div class="result-item">
-                <a href="#" class="result-url">https://medium.com/@java-dev/mybatis-plus-pagination-deep-dive</a>
-                <a href="#" class="result-title">Deep Dive into MyBatis-Plus Pagination and Collection Types</a>
-                <p class="result-snippet">A comprehensive guide on understanding what type of <b>List</b> is <b>returned</b> from <b>MyBatis-Plus pagination</b> operations and how to work with it safely in your application...</p>
-            </div>
-
-            <div class="pagination">
-                <a href="#" class="page-btn active">1</a>
-                <a href="#" class="page-btn">2</a>
-                <a href="#" class="page-btn">3</a>
-                <a href="#" class="page-btn">4</a>
-                <a href="#" class="page-btn">5</a>
-                <a href="#" class="page-btn page-next">下一页 ›</a>
-            </div>
+    <!-- iframe 内容区域 -->
+    <div class="iframe-container">
+        <div id="placeholder" class="placeholder">
+            <h2>欢迎使用网页查看器</h2>
+            <p>点击上方按钮加载 Google 或 GitHub 页面</p>
         </div>
-
-        <div class="sidebar">
-            <div class="related-searches">
-                <h3 class="related-title">相关搜索</h3>
-                <ul class="related-list">
-                    <li><a href="#">mybatisplus 分页参数</a></li>
-                    <li><a href="#">mybatisplus page 对象详解</a></li>
-                    <li><a href="#">mybatis 返回 list 为空处理</a></li>
-                    <li><a href="#">mybatisplus 自定义分页</a></li>
-                    <li><a href="#">mybatis plus 批量修改</a></li>
-                    <li><a href="#">mybatisplus 查询结果转换</a></li>
-                    <li><a href="#">mybatis 集合类型选择</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <div class="footer-links">
-            <a href="#">关于我们</a>
-            <a href="#">广告服务</a>
-            <a href="#">隐私声明</a>
-            <a href="#">使用条款</a>
-            <a href="#">帮助中心</a>
-            <a href="#">反馈</a>
-        </div>
-        <p class="copyright">© 2024 Microsoft Corporation. 此页面为静态演示页面，非真实 Bing 搜索结果。</p>
+        <iframe id="contentFrame" src="" title="Web Content"></iframe>
     </div>
 
     <script>
-        function performSearch() {
-            const query = document.getElementById('searchInput').value;
-            if (query.trim()) {
-                alert('搜索功能演示：将搜索 "' + query + '"\n\n此为静态页面，实际搜索需要后端支持。');
-            } else {
-                alert('请输入搜索内容');
+        function loadPage(url) {
+            const iframe = document.getElementById('contentFrame');
+            const placeholder = document.getElementById('placeholder');
+            
+            // 隐藏占位符
+            placeholder.classList.add('hidden');
+            
+            // 加载新页面
+            iframe.src = url;
+            
+            // 添加加载状态反馈（可选）
+            iframe.onload = function() {
+                console.log('页面加载完成:', url);
+            };
+            
+            iframe.onerror = function() {
+                console.error('页面加载失败:', url);
+            };
+        }
+
+        function handleUrlInput() {
+            const input = document.getElementById('urlInput');
+            const url = input.value.trim();
+            if (url) {
+                let finalUrl = url;
+                // 如果用户没有输入协议头，自动添加 https://
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    finalUrl = 'https://' + url;
+                }
+                loadPage(finalUrl);
             }
         }
 
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                performSearch();
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                handleUrlInput();
+                // 回车后移除焦点
+                document.getElementById('urlInput').blur();
             }
-        });
+        }
 
-        document.querySelectorAll('.page-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (!this.classList.contains('page-next')) {
-                    document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    const pageNum = this.textContent;
-                    console.log('加载第 ' + pageNum + ' 页结果');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    alert('下一页功能演示：将加载第 2 页结果');
-                }
-            });
-        });
-
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-                const tabName = this.textContent;
-                if (tabName !== '全部') {
-                    alert('切换到 "' + tabName + '" 分类（演示）');
-                }
-            });
-        });
-
-        document.querySelectorAll('.result-title, .result-url').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const title = this.classList.contains('result-title') ? this.textContent : this.previousElementSibling?.textContent || '未知结果';
-                console.log('用户点击了搜索结果:', title);
-                alert('点击演示：\n"' + title.substring(0, 30) + '..."\n\n实际项目中这里会跳转到目标页面并记录点击统计。');
-            });
-        });
-
-        document.querySelectorAll('.related-list a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const newQuery = this.textContent;
-                document.getElementById('searchInput').value = newQuery;
-                alert('相关搜索演示：\n将搜索 "' + newQuery + '"');
-            });
-        });
-
-        document.querySelectorAll('.result-item').forEach((item, index) => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-                item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0)';
-            }, index * 50);
-        });
+        // 说明：iframe 内的所有点击、滚动、表单提交等操作都仅限于 iframe 内部
+        // 由于浏览器的同源策略和 X-Frame-Options 限制，部分网站（如 google.com, github.com）可能拒绝在 iframe 中显示
     </script>
 </body>
 </html>
