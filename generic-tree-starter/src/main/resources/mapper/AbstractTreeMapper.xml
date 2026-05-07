@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tree.generic.mapper.AbstractTreeMapper">
+
+    <!-- 
+      通用结果映射 
+      注意：此处不指定 type 属性！
+      MyBatis 会根据 Mapper 接口方法的返回类型自动推断实际实体类（如 Dept.class）
+      这样子类特有的属性才能被正确映射
+    -->
+    <resultMap id="TreeResultMap">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="level" property="level"/>
+        <result column="path" property="path"/>
+        <result column="sort_order" property="sortOrder"/>
+        <result column="is_leaf" property="isLeaf"/>
+        <!-- 子类特有字段会自动由 MyBatis 映射，只要列名与属性名匹配（驼峰转下划线） -->
+    </resultMap>
+
+    <!-- 
+      基础查询：根据父 ID 查询直接子节点
+      使用 SELECT * 确保子类特有字段不被丢失
+      resultType 使用 ${resultType} 占位符，由调用时传入具体类名
+    -->
+    <select id="selectChildrenByParentId" resultType="${resultType}">
+        SELECT *
+        FROM ${tableName}
+        WHERE parent_id = #{parentId}
+        ORDER BY sort_order ASC, id ASC
+    </select>
+
+    <!-- 基础查询：根据层级查询 -->
+    <select id="selectByLevel" resultType="${resultType}">
+        SELECT *
+        FROM ${tableName}
+        WHERE level = #{level}
+        ORDER BY sort_order ASC, id ASC
+    </select>
+
+    <!-- 基础查询：根据路径前缀查询 -->
+    <select id="selectByPathPrefix" resultType="${resultType}">
+        SELECT *
+        FROM ${tableName}
+        WHERE path LIKE CONCAT(#{pathPrefix}, '%')
+        ORDER BY path ASC, sort_order ASC
+    </select>
+
+    <!-- 基础查询：查询所有节点 -->
+    <select id="selectAllNodes" resultType="${resultType}">
+        SELECT *
+        FROM ${tableName}
+        ORDER BY path ASC, sort_order ASC
+    </select>
+
+    <!-- 基础查询：根据 ID 集合查询 -->
+    <select id="selectByIds" resultType="${resultType}">
+        SELECT *
+        FROM ${tableName}
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ORDER BY path ASC, sort_order ASC
+    </select>
+
+    <!-- CTE 递归查询：查询所有子孙节点（包含根节点） -->
+    <select id="selectDescendantsByCTE" resultType="${resultType}">
+        WITH RECURSIVE tree_cte AS (
+            SELECT *
+            FROM ${tableName}
+            WHERE id = #{rootId}
+            UNION ALL
+            SELECT t.*
+            FROM ${tableName} t
+            INNER JOIN tree_cte tc ON t.parent_id = tc.id
+        )
+        SELECT * FROM tree_cte
+        ORDER BY path ASC, sort_order ASC
+    </select>
+
+    <!-- CTE 递归查询：查询所有子孙节点（不包含根节点，方便构建树时排除根） -->
+    <select id="selectDescendantsExcludeRootByCTE" resultType="${resultType}">
+        WITH RECURSIVE tree_cte AS (
+            SELECT *
+            FROM ${tableName}
+            WHERE id = #{rootId}
+            UNION ALL
+            SELECT t.*
+            FROM ${tableName} t
+            INNER JOIN tree_cte tc ON t.parent_id = tc.id
+        )
+        SELECT * FROM tree_cte
+        WHERE id != #{rootId}
+        ORDER BY path ASC, sort_order ASC
+    </select>
+
+    <!-- CTE 递归查询：查询所有祖先节点（包含自身） -->
+    <select id="selectAncestorsByCTE" resultType="${resultType}">
+        WITH RECURSIVE tree_cte AS (
+            SELECT *
+            FROM ${tableName}
+            WHERE id = #{nodeId}
+            UNION ALL
+            SELECT t.*
+            FROM ${tableName} t
+            INNER JOIN tree_cte tc ON t.id = tc.parent_id
+        )
+        SELECT * FROM tree_cte
+        ORDER BY level ASC, sort_order ASC
+    </select>
+
+    <!-- CTE 递归查询：查询从根到当前节点的路径 -->
+    <select id="selectPathByCTE" resultType="${resultType}">
+        WITH RECURSIVE tree_cte AS (
+            SELECT *
+            FROM ${tableName}
+            WHERE id = #{nodeId}
+            UNION ALL
+            SELECT t.*
+            FROM ${tableName} t
+            INNER JOIN tree_cte tc ON t.id = tc.parent_id
+        )
+        SELECT * FROM tree_cte
+        ORDER BY level ASC
+    </select>
+
+    <!-- CTE 统计：统计子孙节点数量 -->
+    <select id="countDescendantsByCTE" resultType="java.lang.Long">
+        WITH RECURSIVE tree_cte AS (
+            SELECT id, parent_id
+            FROM ${tableName}
+            WHERE id = #{rootId}
+            UNION ALL
+            SELECT t.id, t.parent_id
+            FROM ${tableName} t
+            INNER JOIN tree_cte tc ON t.parent_id = tc.id
+        )
+        SELECT COUNT(*) - 1 FROM tree_cte
+    </select>
+
+    <!-- 批量更新：更新路径前缀 (用于移动节点) -->
+    <update id="batchUpdatePathPrefix">
+        UPDATE ${tableName}
+        SET path = REPLACE(path, #{oldPrefix}, #{newPrefix})
+        WHERE path LIKE CONCAT(#{oldPrefix}, '%')
+    </update>
+
+    <!-- 批量更新：更新子节点的 parentId (可选，视业务逻辑而定，通常移动时只需更新路径) -->
+    <update id="updateChildrenParentId">
+        UPDATE ${tableName}
+        SET parent_id = #{newParentId}
+        WHERE parent_id = #{oldParentId}
+    </update>
+
+</mapper>
